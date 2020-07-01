@@ -1,0 +1,13 @@
+{
+    "name": "zgabievi/laravel-onway",
+    "description": "ONWAY.GE Integration for Laravel",
+    "type": "library, composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Zura Gabievi",
+            "email": "zura.gabievi@gmail.com"
+        }
+    ],
+    "require": {}
+}
