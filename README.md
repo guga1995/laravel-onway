@@ -3,8 +3,6 @@
 [![Packagist](https://img.shields.io/packagist/v/zgabievi/laravel-onway.svg)](https://packagist.org/packages/zgabievi/laravel-onway)
 [![Packagist](https://img.shields.io/packagist/dt/zgabievi/laravel-onway.svg)](https://packagist.org/packages/zgabievi/laravel-onway)
 [![license](https://img.shields.io/github/license/zgabievi/laravel-onway.svg)](https://packagist.org/packages/zgabievi/laravel-onway)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zgabievi/laravel-onway/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/zgabievi/laravel-onway/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/zgabievi/laravel-onway/badges/build.png?b=master)](https://scrutinizer-ci.com/g/zgabievi/laravel-onway/build-status/master)
 
 ONWAY.GE Integration for Laravel
 
