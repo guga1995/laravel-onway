@@ -1,7 +1,7 @@
 {
     "name": "zgabievi/laravel-onway",
     "description": "ONWAY.GE Integration for Laravel",
-    "type": "library, composer-plugin",
+    "type": "project",
     "license": "MIT",
     "authors": [
         {
@@ -9,5 +9,31 @@
             "email": "zura.gabievi@gmail.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "Zorb\\Onway\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.2",
+        "bensampo/laravel-enum": "^1.38",
+        "illuminate/config": "^6.0|^7.0",
+        "illuminate/database": "^6.0|^7.0",
+        "illuminate/support": "^6.0|^7.0"
+    },
+    "require-dev": {
+        "ext-curl": "*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+              "OnwayServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
