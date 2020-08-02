@@ -97,8 +97,8 @@ class Onway
                 throw new OnwayRequestException($result->error);
             }
 
-            if (isset($result->status_id)) {
-                $delivery->update(['status' => $result->status_id]);
+            if (isset($result->status)) {
+                $delivery->update(['status' => $result->status]);
             }
 
             return $result;

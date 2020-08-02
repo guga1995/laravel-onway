@@ -27,7 +27,7 @@
     "extra": {
         "laravel": {
             "providers": [
-              "OnwayServiceProvider"
+              "Zorb\\Onway\\OnwayServiceProvider"
             ]
         }
     },
