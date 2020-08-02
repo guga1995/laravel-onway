@@ -1,8 +1,8 @@
 # ONWAY Integration for Laravel
 
-[![Packagist](https://img.shields.io/packagist/v/zgabievi/laravel-onway.svg)](https://packagist.org/packages/zgabievi/laravel-onway)
-[![Packagist](https://img.shields.io/packagist/dt/zgabievi/laravel-onway.svg)](https://packagist.org/packages/zgabievi/laravel-onway)
-[![license](https://img.shields.io/github/license/zgabievi/laravel-onway.svg)](https://packagist.org/packages/zgabievi/laravel-onway)
+[![Packagist](https://img.shields.io/packagist/v/zgabievi/laravel-onway.svg?v=2)](https://packagist.org/packages/zgabievi/laravel-onway)
+[![Packagist](https://img.shields.io/packagist/dt/zgabievi/laravel-onway.svg?v=2)](https://packagist.org/packages/zgabievi/laravel-onway)
+[![license](https://img.shields.io/github/license/zgabievi/laravel-onway.svg?v=2)](https://packagist.org/packages/zgabievi/laravel-onway)
 
 ## Table of Contents
 - [Installation](#installation)
