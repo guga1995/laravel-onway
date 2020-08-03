@@ -30,7 +30,7 @@
               "Zorb\\Onway\\OnwayServiceProvider"
             ],
             "aliases": {
-                "Onway": "Zorb\\Onway\\OnwayFacade"
+                "Onway": "Zorb\\Onway\\Facades\\Onway"
             }
         }
     },
