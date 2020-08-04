@@ -89,7 +89,7 @@ Successful result will return TrackingNumber, otherwise OnwayRequestException wi
 ### Additional Methods
 
 ```php
-  $response = $onway->confirm($result->order_id, '1'); // success = 1, status = 1
+  $response = $onway->status($result->order_id, '1'); // success = 1, status = 1
 ```
 Successful result will return status, otherwise OnwayRequestException will be thrown
 
