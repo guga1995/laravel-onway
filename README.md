@@ -17,7 +17,7 @@
 
 To get started, you need to install package:
 
-```sh
+```shell script
 composer require zgabievi/laravel-onway
 ```
 
@@ -33,7 +33,7 @@ If your laravel version is older than 5.5, then add this to your service provide
 
 You can publish config file using this command:
 
-```sh
+```shell script
 php artisan vendor:publish --provider="Zorb\Onway\OnwayServiceProvider"
 ```
 
