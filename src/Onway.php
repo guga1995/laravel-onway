@@ -8,7 +8,19 @@ use Illuminate\Support\Facades\Log;
 
 class Onway
 {
-    //
+    /**
+     * This method is used to start delivery process
+     *
+     * @param int $order_id
+     * @param array $collection_location
+     * @param array $delivery_location
+     * @param float $weight
+     * @param array $products
+     * @param int $quantity
+     * @return mixed
+     * @throws OnwayProcessException
+     * @throws OnwayRequestException
+     */
     public function start(int $order_id, array $collection_location, array $delivery_location, float $weight, array $products = [], int $quantity = 1)
     {
         $result = $this->send('service/shipping/location', [
@@ -28,7 +40,15 @@ class Onway
         return $result;
     }
 
-    //
+    /**
+     * This method is used to confirm delivery initialization
+     *
+     * @param int $order_id
+     * @param string $declared_value
+     * @return mixed
+     * @throws OnwayProcessException
+     * @throws OnwayRequestException
+     */
     public function confirm(int $order_id, string $declared_value = '')
     {
         $result = $this->send('service/shipping/confirm', [
@@ -44,7 +64,15 @@ class Onway
         return $result;
     }
 
-    //
+    /**
+     * This method is used to get delivery status
+     *
+     * @param int $order_id
+     * @param int $tracking_number
+     * @return mixed
+     * @throws OnwayProcessException
+     * @throws OnwayRequestException
+     */
     public function status(int $order_id, int $tracking_number)
     {
         $result = $this->send('service/shipping/status', [
@@ -60,7 +88,16 @@ class Onway
         return $result;
     }
 
-    //
+    /**
+     * This method is used to send request to provider
+     *
+     * @param string $run
+     * @param array $data
+     * @param bool $json
+     * @param bool $set_headers
+     * @return mixed
+     * @throws OnwayProcessException
+     */
     protected function send(string $run, array $data = [], bool $json = false, bool $set_headers = false)
     {
         $curl = curl_init();

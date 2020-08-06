@@ -56,7 +56,8 @@ use Zorb\Onway\Exceptions\OnwayRequestException;
 use Zorb\Onway\Enums\DeliveryZone;
 use Zorb\Onway\Facades\Onway;
 
-class DeliveryController extends Controller {
+class DeliveryController extends Controller
+{
     //
     public function __invoke()
     {
@@ -123,7 +124,8 @@ class DeliveryController extends Controller {
 use Zorb\Onway\Exceptions\OnwayRequestException;
 use Zorb\Onway\Facades\Onway;
 
-class DeliveryController extends Controller {
+class DeliveryController extends Controller
+{
     //
     public function __invoke() {
         // local order id
