@@ -2,9 +2,10 @@
 
 namespace Zorb\Onway\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
-final class DeliveryZone extends Enum
+final class DeliveryZone extends Enum implements LocalizedEnum
 {
     const Makhinjauri = "98cf112b-26a4-40fd-b010-01b8239a37a8";
     const Tsalka = "768af5b8-8c82-4fe2-9fa9-01be2f188be2";

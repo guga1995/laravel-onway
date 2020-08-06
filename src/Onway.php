@@ -2,47 +2,20 @@
 
 namespace Zorb\Onway;
 
-use Zorb\Onway\Contracts\Delivery as DeliveryContract;
 use Zorb\Onway\Exceptions\OnwayProcessException;
-use Zorb\Onway\Exceptions\OnwayRecordException;
 use Zorb\Onway\Exceptions\OnwayRequestException;
 use Illuminate\Support\Facades\Log;
-use Zorb\Onway\Models\Delivery;
 
 class Onway
 {
     //
-    protected $id;
-
-    //
-    protected $model;
-
-    //
-    public function __construct()
+    public function start(int $order_id, array $collection_location, array $delivery_location, float $weight, array $products = [], int $quantity = 1)
     {
-        $this->id = config('onway.onway_id');
-
-        if (!$this->model instanceof DeliveryContract) {
-            $this->model = OnwayServiceProvider::getModelInstance();
-        }
-    }
-
-    //
-    public function start(array $collection_location, array $delivery_location, float $weight, array $products = [], int $quantity = 1)
-    {
-        $delivery = $this->model->create([
-            'weight' => $weight,
-            'quantity' => $quantity,
-            'description' => implode(', ', $products),
-            'delivery_location' => $delivery_location,
-            'collection_location' => $collection_location,
-        ]);
-
         $result = $this->send('service/shipping/location', [
-            'order_id' => $delivery->id,
+            'order_id' => $order_id,
             'CollectionLocation' => $collection_location,
             'DeliveryLocation' => $delivery_location,
-            'Description' => $delivery->description,
+            'Description' => implode(', ', $products),
             'DeliveryContactName' => '',
             'Quantity' => $quantity,
             'Weight' => $weight,
@@ -52,59 +25,39 @@ class Onway
             throw new OnwayRequestException($result->error);
         }
 
-        if (isset($result->order_id)) {
-            $delivery->update(['order_id' => $result->order_id]);
-        }
-
         return $result;
     }
 
     //
     public function confirm(int $order_id, string $declared_value = '')
     {
-        if ($delivery = Delivery::where('order_id', $order_id)->first()) {
-            $result = $this->send('service/shipping/confirm', [
-                'DeclaredValue' => $declared_value,
-                'order_id' => $delivery->id,
-                'id' => $this->id,
-            ]);
+        $result = $this->send('service/shipping/confirm', [
+            'DeclaredValue' => $declared_value,
+            'order_id' => $order_id,
+            'id' => config('onway.onway_id'),
+        ]);
 
-            if (isset($result->error)) {
-                throw new OnwayRequestException($result->error);
-            }
-
-            if ($result->TrackingNumber) {
-                $delivery->update(['tracking_number' => $result->TrackingNumber]);
-            }
-
-            return $result;
+        if (isset($result->error)) {
+            throw new OnwayRequestException($result->error);
         }
 
-        throw new OnwayRecordException("Delivery record not found for order_id of {$order_id}!");
+        return $result;
     }
 
     //
-    public function status(int $order_id)
+    public function status(int $order_id, int $tracking_number)
     {
-        if ($delivery = Delivery::where('order_id', $order_id)->first()) {
-            $result = $this->send('service/shipping/status', [
-                'trackingNumber' => $delivery->tracking_number,
-                'order_id' => $delivery->id,
-                'id' => $this->id,
-            ]);
+        $result = $this->send('service/shipping/status', [
+            'trackingNumber' => $tracking_number,
+            'order_id' => $order_id,
+            'id' => config('onway.onway_id'),
+        ]);
 
-            if (isset($result->error)) {
-                throw new OnwayRequestException($result->error);
-            }
-
-            if (isset($result->status)) {
-                $delivery->update(['status' => $result->status]);
-            }
-
-            return $result;
+        if (isset($result->error)) {
+            throw new OnwayRequestException($result->error);
         }
 
-        throw new OnwayRecordException("Delivery record not found for order_id of {$order_id}!");
+        return $result;
     }
 
     //
@@ -115,13 +68,14 @@ class Onway
         $params = $json ? json_encode($data) : http_build_query($data);
 
         if (config('onway.debug')) {
-            Log::debug('Onway -> data', [
+            Log::debug('Onway - data', [
                 'data' => $params,
             ]);
         }
 
+        $id = config('onway.onway_id');
         $headers = [
-            "Authorization: {$this->id}",
+            "Authorization: {$id}",
             'Content-Type: application/json'
         ];
 
