@@ -1,3 +1,5 @@
+[![laravel-onway](https://banners.beyondco.de/ONWAY%20Delivery.jpeg?theme=light&packageName=zgabievi%2Flaravel-onway&pattern=topography&style=style_1&description=ONWAY.GE+Integration+for+Laravel&md=1&showWatermark=0&fontSize=100px&images=truck)](https://github.com/zgabievi/laravel-onway)
+
 # ONWAY Integration for Laravel
 
 [![Packagist](https://img.shields.io/packagist/v/zgabievi/laravel-onway.svg)](https://packagist.org/packages/zgabievi/laravel-onway)
