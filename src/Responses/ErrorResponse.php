@@ -2,6 +2,7 @@
 
 namespace Zorb\Onway\Responses;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
 class ErrorResponse
@@ -12,17 +13,21 @@ class ErrorResponse
 	protected $_message;
 
 	/**
-	 * @param ResponseInterface $response
+	 * @param ResponseInterface|GuzzleException $response
 	 */
-	public function __construct(ResponseInterface $response)
+	public function __construct($response)
 	{
-		$body = (string)$response->getBody();
-		$responseJson = json_decode($body, true);
-
-		if (isset($responseJson['error'])) {
-			$this->setMessage($responseJson['error']);
+		if ($response instanceof GuzzleException) {
+			$this->setMessage($response);
 		} else {
-			$this->setMessage($body);
+			$body = (string)$response->getBody();
+			$responseJson = json_decode($body, true);
+
+			if (isset($responseJson['error'])) {
+				$this->setMessage($responseJson['error']);
+			} else {
+				$this->setMessage($body);
+			}
 		}
 	}
 

@@ -36,7 +36,7 @@ class Onway
 	{
 		$response = $this->sendRequest('order/info', $tracking->toArray());
 
-		if ($response->ok()) {
+		if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
 			return new OrderDetailsResponse($response);
 		}
 
@@ -50,7 +50,7 @@ class Onway
 	{
 		$response = $this->sendRequest('order/orders', $filter->toArray());
 
-		if ($response->ok()) {
+		if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
 			return new OrderListResponse($response);
 		}
 
@@ -61,7 +61,6 @@ class Onway
 	 * @param string $url
 	 * @param array $data
 	 * @return ResponseInterface
-	 * @throws \GuzzleHttp\Exception\GuzzleException
 	 */
 	protected function sendRequest(string $url, array $data): ResponseInterface
 	{
