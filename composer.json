@@ -20,8 +20,7 @@
         "illuminate/config": "^6.0|^7.0",
         "illuminate/database": "^6.0|^7.0",
         "illuminate/http": "^6.0|^7.0",
-        "illuminate/support": "^6.0|^7.0",
-        "laravel/framework": "^6.0|^7.0"
+        "illuminate/support": "^6.0|^7.0"
     },
     "require-dev": {
         "ext-curl": "*"
