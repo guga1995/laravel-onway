@@ -2,15 +2,15 @@
 
 namespace Zorb\Onway\Responses;
 
-use Illuminate\Http\Client\Response;
+use Psr\Http\Message\ResponseInterface;
 
-class OrderDetailsResponse extends Response
+class OrderDetailsResponse
 {
 	/**
-	 * @param Response $response
+	 * @param ResponseInterface $response
 	 */
-	public function __construct(Response $response)
+	public function __construct(ResponseInterface $response)
 	{
-		parent::__construct($response->toPsrResponse());
+		//
 	}
 }

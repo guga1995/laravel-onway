@@ -1,43 +1,44 @@
 {
-    "name": "zgabievi/laravel-onway",
-    "description": "ONWAY.GE Integration for Laravel",
-    "type": "project",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Zura Gabievi",
-            "email": "zura.gabievi@gmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Zorb\\Onway\\": "src/"
-        }
-    },
-    "require": {
-        "php": "^7.2",
-        "bensampo/laravel-enum": "^1.38",
-        "illuminate/config": "^6.0|^7.0",
-        "illuminate/database": "^6.0|^7.0",
-        "illuminate/http": "^6.0|^7.0",
-        "illuminate/support": "^6.0|^7.0"
-    },
-    "require-dev": {
-        "ext-curl": "*"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-              "Zorb\\Onway\\OnwayServiceProvider"
-            ],
-            "aliases": {
-                "Onway": "Zorb\\Onway\\Facades\\Onway"
-            }
-        }
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+  "name": "zgabievi/laravel-onway",
+  "description": "ONWAY.GE Integration for Laravel",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Zura Gabievi",
+      "email": "zura.gabievi@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Zorb\\Onway\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7.2",
+    "bensampo/laravel-enum": "^1.38",
+    "guzzlehttp/guzzle": "^7.4",
+    "illuminate/config": "^6.0",
+    "illuminate/database": "^6.0",
+    "illuminate/support": "^6.0",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "ext-curl": "*"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Zorb\\Onway\\OnwayServiceProvider"
+      ],
+      "aliases": {
+        "Onway": "Zorb\\Onway\\Facades\\Onway"
+      }
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

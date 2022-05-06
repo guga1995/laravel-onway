@@ -6,11 +6,12 @@ use Zorb\Onway\Responses\OrderDetailsResponse;
 use Zorb\Onway\Responses\CreateOrderResponse;
 use Zorb\Onway\Responses\OrderListResponse;
 use Zorb\Onway\Responses\ErrorResponse;
+use Psr\Http\Message\ResponseInterface;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 use Zorb\Onway\Models\Tracking;
 use Zorb\Onway\Models\Filter;
 use Zorb\Onway\Models\Order;
+use GuzzleHttp\Client;
 
 class Onway
 {
@@ -19,12 +20,9 @@ class Onway
 	 */
 	public function createOrder(Order $order)
 	{
-		$response = Http::post('?route=api/order/add', $order->toArray())
-			->withOptions(['debug' => Config::get('onway.debug')])
-			->baseUrl(Config::get('onway.api_url'))
-			->acceptJson();
+		$response = $this->sendRequest('order/add', $order->toArray());
 
-		if ($response->ok()) {
+		if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
 			return new CreateOrderResponse($response);
 		}
 
@@ -36,10 +34,7 @@ class Onway
 	 */
 	public function orderDetails(Tracking $tracking)
 	{
-		$response = Http::post('?route=api/order/info', $tracking->toArray())
-			->withOptions(['debug' => Config::get('onway.debug')])
-			->baseUrl(Config::get('onway.api_url'))
-			->acceptJson();
+		$response = $this->sendRequest('order/info', $tracking->toArray());
 
 		if ($response->ok()) {
 			return new OrderDetailsResponse($response);
@@ -53,15 +48,31 @@ class Onway
 	 */
 	public function orderList(Filter $filter)
 	{
-		$response = Http::post('?route=api/order/orders', $filter->toArray())
-			->withOptions(['debug' => Config::get('onway.debug')])
-			->baseUrl(Config::get('onway.api_url'))
-			->acceptJson();
+		$response = $this->sendRequest('order/orders', $filter->toArray());
 
 		if ($response->ok()) {
 			return new OrderListResponse($response);
 		}
 
 		return new ErrorResponse($response);
+	}
+
+	/**
+	 * @param string $url
+	 * @param array $data
+	 * @return ResponseInterface
+	 * @throws \GuzzleHttp\Exception\GuzzleException
+	 */
+	protected function sendRequest(string $url, array $data): ResponseInterface
+	{
+		$client = new Client();
+
+		return $client->post(Config::get('onway.api_url') . '?route=api/' . $url, [
+			'json' => $data,
+			'debug' => Config::get('onway.debug'),
+			'headers' => [
+				'Accept' => 'application/json',
+			],
+		]);
 	}
 }

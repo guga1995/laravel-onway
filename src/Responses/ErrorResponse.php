@@ -2,9 +2,9 @@
 
 namespace Zorb\Onway\Responses;
 
-use Illuminate\Http\Client\Response;
+use Psr\Http\Message\ResponseInterface;
 
-class ErrorResponse extends Response
+class ErrorResponse
 {
 	/**
 	 * @var string|null
@@ -12,18 +12,17 @@ class ErrorResponse extends Response
 	protected $_message;
 
 	/**
-	 * @param Response $response
+	 * @param ResponseInterface $response
 	 */
-	public function __construct(Response $response)
+	public function __construct(ResponseInterface $response)
 	{
-		parent::__construct($response->toPsrResponse());
-
-		$responseJson = $response->json();
+		$body = (string)$response->getBody();
+		$responseJson = json_decode($body, true);
 
 		if (isset($responseJson['error'])) {
 			$this->setMessage($responseJson['error']);
 		} else {
-			$this->setMessage($response->body());
+			$this->setMessage($body);
 		}
 	}
 

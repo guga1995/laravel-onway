@@ -2,9 +2,9 @@
 
 namespace Zorb\Onway\Responses;
 
-use Illuminate\Http\Client\Response;
+use Psr\Http\Message\ResponseInterface;
 
-class CreateOrderResponse extends Response
+class CreateOrderResponse
 {
 	/**
 	 * @var string|null
@@ -12,13 +12,11 @@ class CreateOrderResponse extends Response
 	protected $_trackingNumber;
 
 	/**
-	 * @param Response $response
+	 * @param ResponseInterface $response
 	 */
-	public function __construct(Response $response)
+	public function __construct(ResponseInterface $response)
 	{
-		parent::__construct($response->toPsrResponse());
-
-		$responseJson = $response->json();
+		$responseJson = json_decode((string)$response->getBody(), true);
 
 		if (isset($responseJson['trackingnumber'])) {
 			$this->setTrackingNumber($responseJson['trackingnumber']);
