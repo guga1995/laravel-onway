@@ -17,7 +17,7 @@
   "require": {
     "php": "^7.2",
     "bensampo/laravel-enum": "^1.38",
-    "guzzlehttp/guzzle": "^7.4",
+    "guzzlehttp/guzzle": "^6.5",
     "illuminate/config": "^6.0",
     "illuminate/database": "^6.0",
     "illuminate/support": "^6.0",
