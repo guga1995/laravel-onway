@@ -12,10 +12,17 @@ class CreateOrderResponse
 	protected $_trackingNumber;
 
 	/**
+	 * @var ResponseInterface|null
+	 */
+	protected $_response;
+
+	/**
 	 * @param ResponseInterface $response
 	 */
 	public function __construct(ResponseInterface $response)
 	{
+		$this->setResponse($response);
+
 		$responseJson = json_decode((string)$response->getBody(), true);
 
 		if (isset($responseJson['trackingnumber'])) {
@@ -39,5 +46,23 @@ class CreateOrderResponse
 	public function getTrackingNumber(): ?string
 	{
 		return $this->_trackingNumber;
+	}
+
+	/**
+	 * @param ResponseInterface $response
+	 * @return $this
+	 */
+	public function setResponse(ResponseInterface $response): self
+	{
+		$this->_response = $response;
+		return $this;
+	}
+
+	/**
+	 * @return ResponseInterface|null
+	 */
+	public function getResponse(): ?ResponseInterface
+	{
+		return $this->_response;
 	}
 }
