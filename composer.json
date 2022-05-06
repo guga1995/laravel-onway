@@ -17,7 +17,7 @@
     "require": {
         "php": "^7.2",
         "bensampo/laravel-enum": "^1.38",
-        "illuminate/config": "^7.30",
+        "illuminate/config": "^6.0|^7.0",
         "illuminate/database": "^6.0|^7.0",
         "illuminate/http": "^6.0|^7.0",
         "illuminate/support": "^6.0|^7.0",
