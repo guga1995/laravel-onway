@@ -69,6 +69,14 @@ class Filter
 	}
 
 	/**
+	 * @return $this
+	 */
+	public static function make(): self
+	{
+		return new static();
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
