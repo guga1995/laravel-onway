@@ -21,7 +21,7 @@
         "illuminate/database": "^6.0|^7.0",
         "illuminate/http": "^6.0|^7.0",
         "illuminate/support": "^6.0|^7.0",
-        "symfony/http-foundation": "^5.4"
+        "laravel/framework": "^6.0|^7.0"
     },
     "require-dev": {
         "ext-curl": "*"
