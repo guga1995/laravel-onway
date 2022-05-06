@@ -2,152 +2,66 @@
 
 namespace Zorb\Onway;
 
-use Zorb\Onway\Exceptions\OnwayProcessException;
-use Zorb\Onway\Exceptions\OnwayRequestException;
-use Illuminate\Support\Facades\Log;
+use Zorb\Onway\Responses\OrderDetailsResponse;
+use Zorb\Onway\Responses\CreateOrderResponse;
+use Zorb\Onway\Responses\OrderListResponse;
+use Zorb\Onway\Responses\ErrorResponse;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
+use Zorb\Onway\Models\Tracking;
+use Zorb\Onway\Models\Filter;
+use Zorb\Onway\Models\Order;
 
 class Onway
 {
-    /**
-     * This method is used to start delivery process
-     *
-     * @param int $order_id
-     * @param array $collection_location
-     * @param array $delivery_location
-     * @param float $weight
-     * @param array $products
-     * @param int $quantity
-     * @return mixed
-     * @throws OnwayProcessException
-     * @throws OnwayRequestException
-     */
-    public function start(int $order_id, array $collection_location, array $delivery_location, float $weight, array $products = [], int $quantity = 1)
-    {
-        $result = $this->send('service/shipping/location', [
-            'order_id' => $order_id,
-            'CollectionLocation' => $collection_location,
-            'DeliveryLocation' => $delivery_location,
-            'Description' => implode(', ', $products),
-            'DeliveryContactName' => '',
-            'Quantity' => $quantity,
-            'Weight' => $weight,
-        ], true, true);
+	/**
+	 * @return CreateOrderResponse|ErrorResponse
+	 */
+	public function createOrder(Order $order)
+	{
+		$response = Http::post('?route=api/order/add', $order->toArray())
+			->withOptions(['debug' => Config::get('onway.debug')])
+			->baseUrl(Config::get('onway.api_url'))
+			->acceptJson();
 
-        if (isset($result->error)) {
-            throw new OnwayRequestException($result->error);
-        }
+		if ($response->ok()) {
+			return new CreateOrderResponse($response);
+		}
 
-        return $result;
-    }
+		return new ErrorResponse($response);
+	}
 
-    /**
-     * This method is used to confirm delivery initialization
-     *
-     * @param int $order_id
-     * @param string $declared_value
-     * @return mixed
-     * @throws OnwayProcessException
-     * @throws OnwayRequestException
-     */
-    public function confirm(int $order_id, string $declared_value = '')
-    {
-        $result = $this->send('service/shipping/confirm', [
-            'DeclaredValue' => $declared_value,
-            'order_id' => $order_id,
-            'id' => config('onway.onway_id'),
-        ]);
+	/**
+	 * @return OrderDetailsResponse|ErrorResponse
+	 */
+	public function orderDetails(Tracking $tracking)
+	{
+		$response = Http::post('?route=api/order/info', $tracking->toArray())
+			->withOptions(['debug' => Config::get('onway.debug')])
+			->baseUrl(Config::get('onway.api_url'))
+			->acceptJson();
 
-        if (isset($result->error)) {
-            throw new OnwayRequestException($result->error);
-        }
+		if ($response->ok()) {
+			return new OrderDetailsResponse($response);
+		}
 
-        return $result;
-    }
+		return new ErrorResponse($response);
+	}
 
-    /**
-     * This method is used to get delivery status
-     *
-     * @param int $order_id
-     * @param int $tracking_number
-     * @return mixed
-     * @throws OnwayProcessException
-     * @throws OnwayRequestException
-     */
-    public function status(int $order_id, int $tracking_number)
-    {
-        $result = $this->send('service/shipping/status', [
-            'trackingNumber' => $tracking_number,
-            'order_id' => $order_id,
-            'id' => config('onway.onway_id'),
-        ]);
+	/**
+	 * @return OrderListResponse|ErrorResponse
+	 */
+	public function orderList(Filter $filter)
+	{
+		$response = Http::post('?route=api/order/orders', $filter->toArray())
+			->withOptions(['debug' => Config::get('onway.debug')])
+			->baseUrl(Config::get('onway.api_url'))
+			->acceptJson();
 
-        if (isset($result->error)) {
-            throw new OnwayRequestException($result->error);
-        }
+		if ($response->ok()) {
+			return new OrderListResponse($response);
+		}
 
-        return $result;
-    }
-
-    /**
-     * This method is used to send request to provider
-     *
-     * @param string $run
-     * @param array $data
-     * @param bool $json
-     * @param bool $set_headers
-     * @return mixed
-     * @throws OnwayProcessException
-     */
-    protected function send(string $run, array $data = [], bool $json = false, bool $set_headers = false)
-    {
-        $curl = curl_init();
-        $api = config('onway.api_url');
-        $params = $json ? json_encode($data) : http_build_query($data);
-
-        if (config('onway.debug')) {
-            Log::debug('Onway - data', [
-                'data' => $params,
-            ]);
-        }
-
-        $id = config('onway.onway_id');
-        $headers = [
-            "Authorization: {$id}",
-            'Content-Type: application/json'
-        ];
-
-        if (config('onway.debug')) {
-            Log::debug('Onway - headers', $headers);
-        }
-
-        curl_setopt($curl, CURLOPT_URL, "{$api}?run={$run}");
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-
-        if ($set_headers) {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        }
-
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        $result = curl_exec($curl);
-        $info = curl_getinfo($curl);
-
-        if (config('onway.debug')) {
-            Log::debug($result);
-            Log::debug($info);
-        }
-
-        if (curl_errno($curl)) {
-            throw new OnwayProcessException(curl_error($curl));
-        }
-
-        if (!$result) {
-            throw new OnwayProcessException('No result returned from curl request!');
-        }
-
-        curl_close($curl);
-
-        return json_decode($result);
-    }
+		return new ErrorResponse($response);
+	}
 }
