@@ -19,5 +19,10 @@ return [
 	/**
 	 * This is the url provided by onway.ge developer
 	 */
-	'api_url' => env('ONWAY_API_URL', 'https://delivery.onway.ge/index.php'),
+	'base_api_url' => env('ONWAY_BASE_API_URL', 'https://onway.ge/index.php'),
+
+	/**
+	 * This is the url provided by onway.ge developer
+	 */
+	'delivery_api_url' => env('ONWAY_DELIVERY_API_URL', 'https://delivery.onway.ge/index.php'),
 ];

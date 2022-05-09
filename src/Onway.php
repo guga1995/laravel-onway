@@ -20,7 +20,7 @@ class Onway
 	 */
 	public function createOrder(Order $order)
 	{
-		$response = $this->sendRequest('order/add', $order->toArray());
+		$response = $this->sendRequest('order/add', $order->toArray(), true);
 
 		if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
 			return new CreateOrderResponse($response);
@@ -60,13 +60,15 @@ class Onway
 	/**
 	 * @param string $url
 	 * @param array $data
+	 * @param bool $base
 	 * @return ResponseInterface
 	 */
-	protected function sendRequest(string $url, array $data): ResponseInterface
+	protected function sendRequest(string $url, array $data, bool $base = false): ResponseInterface
 	{
 		$client = new Client();
+		$api_url = $base ? Config::get('onway.base_api_url') : Config::get('onway.delivery_api_url');
 
-		return $client->post(Config::get('onway.api_url') . '?route=api/' . $url, [
+		return $client->post($api_url . '?route=api/' . $url, [
 			'json' => $data,
 			'debug' => Config::get('onway.debug'),
 			'headers' => [
