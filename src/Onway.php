@@ -12,6 +12,9 @@ use Zorb\Onway\Models\Tracking;
 use Zorb\Onway\Models\Filter;
 use Zorb\Onway\Models\Order;
 use GuzzleHttp\Client;
+use Zorb\Onway\Events\OnRequest;
+use Zorb\Onway\Events\OnResponse;
+
 //test
 class Onway
 {
@@ -68,12 +71,20 @@ class Onway
 		$client = new Client();
 		$api_url = $base ? Config::get('onway.base_api_url') : Config::get('onway.delivery_api_url');
 
-		return $client->post($api_url . '?route=api/' . $url, [
+		$fullUrl = $api_url . '?route=api/' . $url;
+
+		event(new OnRequest($fullUrl, $data));
+
+		$response = $client->post($fullUrl, [
 			'json' => $data,
 			'debug' => Config::get('onway.debug'),
 			'headers' => [
 				'Accept' => 'application/json',
 			],
 		]);
+
+		event(new OnResponse($fullUrl, $response->getBody()->getContents()));
+
+		return $response;
 	}
 }
