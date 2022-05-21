@@ -16,6 +16,6 @@ class OnResponse
     public function __construct(string $url, $data)
     {
         $this->url = $url;
-        $this->order = $data;
+        $this->data = $data;
     }
 }

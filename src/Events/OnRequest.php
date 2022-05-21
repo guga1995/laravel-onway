@@ -16,6 +16,6 @@ class OnRequest
     public function __construct(string $url, array $data)
     {
         $this->url = $url;
-        $this->order = $data;
+        $this->data = $data;
     }
 }
