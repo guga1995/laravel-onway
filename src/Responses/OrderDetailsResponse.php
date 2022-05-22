@@ -2,38 +2,15 @@
 
 namespace Zorb\Onway\Responses;
 
-use Psr\Http\Message\ResponseInterface;
-
-class OrderDetailsResponse
+class OrderDetailsResponse extends BaseResponse
 {
-	/**
-	 * @var ResponseInterface|null
-	 */
-	protected $_response;
-
-	/**
-	 * @param ResponseInterface $response
-	 */
-	public function __construct(ResponseInterface $response)
+	public function status()
 	{
-		$this->setResponse($response);
+		return $this->attributes['status'];
 	}
 
-	/**
-	 * @param ResponseInterface $response
-	 * @return $this
-	 */
-	public function setResponse(ResponseInterface $response): self
+	public function images(): array
 	{
-		$this->_response = $response;
-		return $this;
-	}
-
-	/**
-	 * @return ResponseInterface|null
-	 */
-	public function getResponse(): ?ResponseInterface
-	{
-		return $this->_response;
+		return $this->attributes['images'];
 	}
 }
