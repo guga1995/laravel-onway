@@ -2,8 +2,9 @@
 
 namespace Zorb\Onway\Requests;
 
-use App\Exceptions\OnwayResponseException;
+use Zorb\Onway\Exceptions\OnwayResponseException;
 use GuzzleHttp\Client;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
@@ -42,17 +43,21 @@ abstract class BaseRequest
 			$debugEnable = Config::get('onway.debug.enable');
 			$debugChannel = Config::get('onway.debug.channel');
 
+			$responseBody = json_decode((string)$response->getBody(), true);
+
 			if ($debugEnable) {
 				Log::channel($debugChannel)
 					->debug('onway_debug', [
 						'url' => $fullUrl,
 						'request' => $data,
-						'response' => json_decode((string)$response->getBody(), true)
+						'response' => $responseBody
 					]);
 			}
 		}
 
 		if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+
+			$this->handleException($response, $responseBody);
 
 			$responseClass = $this->getResponseClass();
 			$eventClass = $this->getEventClass();
@@ -84,4 +89,11 @@ abstract class BaseRequest
 	abstract public function getResponseClass(): string;
 
 	abstract public function getEventClass(): string;
+
+	public function handleException($response, array $body)
+	{
+		if (Arr::has($body, 'error')) {
+			throw new OnwayResponseException($response, Arr::get($body, 'error'));
+		}
+	}
 }

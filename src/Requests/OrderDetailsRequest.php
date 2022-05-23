@@ -2,9 +2,14 @@
 
 namespace Zorb\Onway\Requests;
 
+use Illuminate\Support\Arr;
 use Zorb\Onway\Events\OnOrderDetailsResponse;
+use Zorb\Onway\Exceptions\OnwayResponseException;
 use Zorb\Onway\Responses\OrderDetailsResponse;
 
+/**
+ * @method OrderDetailsResponse send()
+ */
 class OrderDetailsRequest extends BaseRequest
 {
 	public function getUrl(): string

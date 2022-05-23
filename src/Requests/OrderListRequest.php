@@ -5,6 +5,9 @@ namespace Zorb\Onway\Requests;
 use Zorb\Onway\Events\OnOrderListResponse;
 use Zorb\Onway\Responses\OrderListResponse;
 
+/**
+ * @method OrderListResponse send()
+ */
 class OrderListRequest extends BaseRequest
 {
 	protected function defaults()

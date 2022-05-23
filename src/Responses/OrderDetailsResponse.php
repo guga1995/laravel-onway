@@ -6,7 +6,7 @@ class OrderDetailsResponse extends BaseResponse
 {
 	public function status()
 	{
-		return $this->attributes['status'];
+		return $this->attributes['order_info']['status'];
 	}
 
 	public function images(): array

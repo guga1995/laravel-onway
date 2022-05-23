@@ -2,10 +2,12 @@
 
 namespace Zorb\Onway\Requests;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Zorb\Onway\Enums\OrderService;
 use Zorb\Onway\Enums\ServiceLevel;
 use Zorb\Onway\Events\OnCreateOrderResponse;
+use Zorb\Onway\Exceptions\OnwayResponseException;
 use Zorb\Onway\Responses\CreateOrderResponse;
 
 /**
