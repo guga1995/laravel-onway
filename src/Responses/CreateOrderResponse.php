@@ -4,8 +4,10 @@ namespace Zorb\Onway\Responses;
 
 class CreateOrderResponse extends BaseResponse
 {
-	public function trackingNumber()
+	protected function transform($attributes): array
 	{
-		return $this->attributes['trackingnumber'];
+		return [
+			"tracking_number" => $attributes["trackingnumber"]
+		];
 	}
 }
