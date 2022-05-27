@@ -9,10 +9,10 @@ class OnOrderDetailsResponse
 {
     use Dispatchable;
 
-    public $orderDetailsResponse;
+    public $response;
  
-    public function __construct(OrderDetailsResponse $orderDetailsResponse)
+    public function __construct(OrderDetailsResponse $response)
     {
-        $this->orderDetailsResponse = $orderDetailsResponse;
+        $this->orderDetailsResponse = $response;
     }
 }

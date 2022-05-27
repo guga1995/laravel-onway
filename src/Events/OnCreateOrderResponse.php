@@ -9,10 +9,10 @@ class OnCreateOrderResponse
 {
     use Dispatchable;
 
-    public $createOrderResponse;
+    public $response;
  
-    public function __construct(CreateOrderResponse $createOrderResponse)
+    public function __construct(CreateOrderResponse $response)
     {
-        $this->createOrderResponse = $createOrderResponse;
+        $this->createOrderResponse = $response;
     }
 }

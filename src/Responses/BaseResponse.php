@@ -36,6 +36,11 @@ class BaseResponse
 		return $this->attributes;
 	}
 
+	public function toArray(): array
+	{
+		return $this->getAttributes();
+	}
+
 	public function getAttributesStd(): stdClass
 	{
 		return $this->attributesStd;

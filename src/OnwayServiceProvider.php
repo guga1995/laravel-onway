@@ -30,8 +30,14 @@ class OnwayServiceProvider extends ServiceProvider
 		$this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'onway');
 
 		$this->publishes([
-			__DIR__.'/resources/lang' => resource_path('lang/vendor/onway'),
+			__DIR__ . '/resources/lang' => resource_path('lang/vendor/onway'),
 		]);
+
+		if (!class_exists('CreateOnwayOrdersTable')) {
+			$this->publishes([
+				__DIR__ . '/migrations/create_onway_orders_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_onway_orders_table.php'),
+			], 'migrations');
+		}
 
 		$this->app->bind(Onway::class);
 	}

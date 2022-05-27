@@ -37,11 +37,11 @@ class OrderListRequest extends BaseRequest
 	{
 		return [
 			'page' => $this->attributes['page'],
-			'limit' => $this->attributes['page'],
-			'filters' => [
-				'from_date' => $this->attributes['from_date'],
-				'to_date' => $this->attributes['to_date']
-			]
+			'limit' => $this->attributes['limit'],
+			// 'filters' => [
+			// 	'from_date' => $this->attributes['from_date'],
+			// 	'to_date' => $this->attributes['to_date']
+			// ]
 		];
 	}
 
