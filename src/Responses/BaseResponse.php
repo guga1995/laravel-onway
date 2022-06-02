@@ -4,6 +4,7 @@ namespace Zorb\Onway\Responses;
 
 use Psr\Http\Message\ResponseInterface;
 use stdClass;
+use Zorb\Onway\Transforms\BaseTransform;
 
 class BaseResponse
 {
@@ -19,7 +20,9 @@ class BaseResponse
 
 		$data = json_decode((string)$response->getBody(), true);
 
-		$attributes = $this->transform($data);
+		$transformClass = $this->getTransformClass();
+		$transform = new $transformClass($data);
+		$attributes = $transform->transform();
 
 		$this->attributes = $attributes;
 
@@ -46,13 +49,13 @@ class BaseResponse
 		return $this->attributesStd;
 	}
 
-	protected function transform($attributes): array
-	{
-		return $attributes;
-	}
-
 	public function __get(string $name) 
 	{
 		return $this->attributesStd->{$name};
+	}
+
+	protected function getTransformClass()
+	{
+		return BaseTransform::class;
 	}
 }

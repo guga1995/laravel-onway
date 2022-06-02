@@ -2,12 +2,12 @@
 
 namespace Zorb\Onway\Responses;
 
+use Zorb\Onway\Transforms\CreateOrderTransform;
+
 class CreateOrderResponse extends BaseResponse
 {
-	protected function transform($attributes): array
+	protected function getTransformClass()
 	{
-		return [
-			"tracking_number" => $attributes["trackingnumber"]
-		];
+		return CreateOrderTransform::class;
 	}
 }

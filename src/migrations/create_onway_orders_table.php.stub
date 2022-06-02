@@ -39,7 +39,7 @@ class CreateOnwayOrdersTable extends Migration
             $table->string('order_number')->nullable();
             $table->decimal('order_price', 12)->default(0);
             $table->boolean('brittle')->default(false);
-            $table->json('services')->default('[]');
+            $table->json('services')->nullable();
             $table->decimal('shipping_price', 12)->default(0);
             $table->decimal('additional_services_price', 12)->default(0);
             $table->decimal('cash_amount', 12)->default(0);
@@ -49,7 +49,7 @@ class CreateOnwayOrdersTable extends Migration
             $table->integer('order_status_id')->default(OrderStatusId::Status_37);
             $table->string('level')->nullable();
             $table->string('to_date_time')->nullable();
-            $table->json('images')->default('[]');
+            $table->json('images')->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();
         });
