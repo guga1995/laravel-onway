@@ -11,7 +11,6 @@ class OrderListTransform extends BaseTransform
 		$data = array_map(function($item) {
             return [
                 "tracking_number" => $item["tracking"],
-                // "parent_tracking_number" => $item["parent_tracking_number"], //missing
                 "from_name" => $item["from_name"],
                 "from_company" => $item["from_company"],
                 "from_address" => $item["from_address"],

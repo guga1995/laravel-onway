@@ -17,7 +17,6 @@ class CreateOnwayOrdersTable extends Migration
         Schema::create('onway_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('tracking_number');
-            $table->string('parent_tracking_number')->nullable();
             $table->string('from_name')->nullable();
             $table->string('from_company')->nullable();
             $table->string('from_address')->nullable();
@@ -50,7 +49,6 @@ class CreateOnwayOrdersTable extends Migration
             $table->string('level')->nullable();
             $table->string('to_date_time')->nullable();
             $table->json('images')->nullable();
-            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
