@@ -39,6 +39,7 @@ class UpdateOrderRequestTransform extends BaseTransform
 			"cash_amount" => (float)$order_info["cash_amount"],
 			"payer_name" => $order_info["payer_name"],
 			"pay" => (bool)$order_info["pay"],
+			"status" => trans('onway::statuses.' . (int)$order_info["order_status_id"]),
 			"order_status_id" => (int)$order_info["order_status_id"],
 			"level" => $order_info["service_level"],
 			"to_date_time" => $order_info["to_date_time"],
