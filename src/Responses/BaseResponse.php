@@ -20,8 +20,7 @@ class BaseResponse
 
 		$data = json_decode((string)$response->getBody(), true);
 
-		$transformClass = $this->getTransformClass();
-		$transform = new $transformClass($data);
+		$transform = $this->makeTransformInstance($data);
 		$attributes = $transform->transform();
 
 		$this->attributes = $attributes;
@@ -52,6 +51,13 @@ class BaseResponse
 	public function __get(string $name) 
 	{
 		return $this->attributesStd->{$name};
+	}
+
+	protected function makeTransformInstance(array $data): BaseTransform
+	{
+		$transformClass = $this->getTransformClass();
+		$transform = new $transformClass($data);
+		return $transform;
 	}
 
 	protected function getTransformClass()

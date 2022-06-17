@@ -11,7 +11,7 @@ class UpdateOrderRequestTransform extends BaseTransform
 		$order_info = $this->attributes['order_info'];
 
 		return [
-			"tracking_number" => $order_info["tracking"],
+			"tracking_number" => $order_info["trackingnumber"],
 			"from_name" => $order_info["from_name"],
 			"from_company" => $order_info["from_company"],
 			"from_address" => $order_info["from_address"],

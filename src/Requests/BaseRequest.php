@@ -7,6 +7,8 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
+use Psr\Http\Message\ResponseInterface;
+use Zorb\Onway\Responses\BaseResponse;
 
 abstract class BaseRequest
 {
@@ -59,10 +61,10 @@ abstract class BaseRequest
 
 			$this->handleException($response, $responseBody);
 
-			$responseClass = $this->getResponseClass();
 			$eventClass = $this->getEventClass();
 
-			$responseInstance = new $responseClass($response);
+			$responseInstance = $this->makeResponseInstance($response);
+
 			event(new $eventClass($responseInstance));
 
 			return $responseInstance;
@@ -84,16 +86,25 @@ abstract class BaseRequest
 		], $this->toArray());
 	}
 
-	abstract public function getUrl(): string;
+	protected function makeResponseInstance(ResponseInterface $response)
+	{
+		$responseClass = $this->getResponseClass();
+		return new $responseClass($response);
+	}
 
-	abstract public function getResponseClass(): string;
+	protected function getResponseClass(): string
+	{
+		return BaseResponse::class;
+	}
 
-	abstract public function getEventClass(): string;
-
-	public function handleException($response, array $body)
+	protected function handleException($response, array $body)
 	{
 		if (Arr::has($body, 'error')) {
 			throw new OnwayResponseException($response, Arr::get($body, 'error'));
 		}
 	}
+
+	abstract public function getUrl(): string;
+
+	abstract public function getEventClass(): string;
 }

@@ -4,6 +4,7 @@ namespace Zorb\Onway\Requests;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Psr\Http\Message\ResponseInterface;
 use Zorb\Onway\Enums\OrderService;
 use Zorb\Onway\Enums\ServiceLevel;
 use Zorb\Onway\Events\OnCreateOrderResponse;
@@ -33,9 +34,9 @@ class CreateOrderRequest extends BaseRequest
 		return 'order/add';
 	}
 
-	public function getResponseClass(): string
+	protected function makeResponseInstance(ResponseInterface $response)
 	{
-		return CreateOrderResponse::class;
+		return new CreateOrderResponse($response, $this->toArray());
 	}
 
 	public function getEventClass(): string
