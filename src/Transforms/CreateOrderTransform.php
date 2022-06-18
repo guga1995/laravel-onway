@@ -28,8 +28,8 @@ class CreateOrderTransform extends BaseTransform
 			"order_detail" => $order_info["order_detail"],
 			"order_price" => (float)$order_info["order_price"],
 			"services" => $order_info["services"],
-			"order_status_id" =>  OrderStatusId::Status_39,
-			"status" => trans('onway::statuses.' . OrderStatusId::Status_39),
+			"order_status_id" =>  OrderStatusId::Status_37,
+			"status" => trans('onway::statuses.' . OrderStatusId::Status_37),
 		];
 	}
 }
