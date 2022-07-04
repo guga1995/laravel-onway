@@ -25,7 +25,7 @@ class UpdateOrderRequestTransform extends BaseTransform
 			"from_date" => $order_info["from_date"],
 			"to_date" => strtotime($order_info["to_date"]) ? Carbon::createFromFormat('d/m/Y', $order_info["to_date"])->toDateString() : null,
 			"on_date" => strtotime($order_info["on_date"]) ? Carbon::parse($order_info["on_date"])->toDateString() : null,
-			"off_date" => strtotime($order_info["off_date"]) ? Carbon::parse($order_info["of_date"])->toDateString() : null,
+			"off_date" => strtotime($order_info["off_date"]) ? Carbon::parse($order_info["off_date"])->toDateString() : null,
 			"parcel" => (int)$order_info["parcel"],
 			"weight" => (float)$order_info["weight"],
 			"quantity" => (int)$order_info["quantity"],
